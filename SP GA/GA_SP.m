@@ -1,6 +1,7 @@
 %%1-D Self Potential linear Inversion (SP forward modelling : El-Kaliboy dan Al-Gami (2009))
 %Inclined sheet anomaly using Genetic Algorithm
 % Algorithm
+%Inspired by M. Randy Caesario H. GA MATLAB code (https://github.com/mrch-hub/geoph-inversion)
 %Mohammad Rheza Zamani
 clear all;
 clc;
@@ -42,7 +43,7 @@ for ipop = 1 : npop
     model(ipop,4) = alpha_min + rand*(alpha_max - alpha_min);
     model(ipop,5) = a_min + rand*(a_max - a_min);
     V_cal1(ipop,:) = fwd_SP(model(ipop,1),model(ipop,2),model(ipop,3),model(ipop,4),model(ipop,5),x);
-    misfit(ipop) = misfit_SP(V_obs(1,:),V_cal1(ipop,:));
+    misfit(ipop) = misfit_SP(V_obs(1,:),V_cal1(ipop,:))
 end
 
 
@@ -60,7 +61,7 @@ for itr = 1 : nitr
     %Roulette wheel pemilihan induk
     for i=1:npop/2
       R1 = rand;
-      for j=1:npop
+     for j=1:npop
         if R1 < cumm(j)
             ipar1 = j;
             break
@@ -102,14 +103,14 @@ for itr = 1 : nitr
     end
     model = model_new;
     for i=1:npop
-        Vcal_new(i,:) = fwd_SP(model(i,1),model(i,2),model(i,3),model(i,4),model(i,5),x);
-        misfit(i) = misfit_SP(V_obs(1,:),Vcal_new(i,:));
+        V_cal1(i,:) = fwd_SP(model(i,1),model(i,2),model(i,3),model(i,4),model(i,5),x);
+        misfit(i) = misfit_SP(V_obs(1,:),V_cal1(i,:));
     end
     Egen(itr) = misfit(i);
     fitgen(itr) = fitness(i);
 
 figure(1)
-plot(x,V_obs,'r.',x,Vcal_new,'b-','MarkerSize',20,'MarkerFaceColor','r','LineWidth',2.5);
+plot(x,V_obs,'r.',x,V_cal1,'b-','MarkerSize',20,'MarkerFaceColor','r','LineWidth',2.5);
 axis([-100 100 -150 50])
 legend({'Forward Model','Inversion Model'},'Location','Southeast')
 title(['\bf \fontsize{10}\fontname{Times}SP Anomaly  || Misfit : ', num2str(Egen(itr)),' || iteration : ', num2str(itr)],'FontWeight','bold');
