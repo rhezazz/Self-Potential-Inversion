@@ -51,12 +51,8 @@ for itr = 1 : nitr
     %fitness
     fitness = 1./misfit;
     %fitness ternomalisasi
-    fitness_norm = fitness./sum(fitness);
-    sc = 0;
-    for i = 1 : npop
-        sc = sc + fitness_norm(i);
-        cumm(i) = sc;
-    end
+    prob_selection = fitness./sum(fitness);
+    cumm = cumsum(prob_selection);
     indx = 1;
     %Roulette wheel pemilihan induk
     for i=1:npop/2
