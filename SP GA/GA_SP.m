@@ -18,7 +18,7 @@ x = -100:1:100;
 [V_obs] = fwd_SP(k,x0,z,alpha,a,x);
 %Definisi Ruang Model
 nitr = 300; 
-npop = 2;
+npop = 100;
 k_min = 1;
 k_max = 200;
 x0_min = 1;
